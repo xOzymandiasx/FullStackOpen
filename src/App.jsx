@@ -1,5 +1,8 @@
 import "./App.css";
-import TelephoneGuide from "./Parte 2/Parte 2b 2.6-2.10/components/TelephoneGuide";
+import ArchivoPrueba from "./ArchivoPrueba";
+import CountrySearchApi from "./Parte 2/Parte 2c 2.11-2.14/2.11-2.14/components/CountrySearchApi";
+// import TelephoneGuideServer from "./Parte 2/Parte 2c 2.11-2.14/2.11/components/TelephoneGuideServer";
+// import TelephoneGuide from "./Parte 2/Parte 2b 2.6-2.10/components/TelephoneGuide";
 // import Anecdotes from "./Parte 1/Aplicacion final Anecdotes/components/Anecdotes";
 // import UniCafe from "./Parte 1/Aplicacion final UniCafe/components/UniCafe";
 // import Course from "./Parte 2/Parte 2a 2.1-2.5/components/Course";
@@ -19,7 +22,10 @@ function App() {
       {/* <UniCafe /> */}
       {/* <Anecdotes /> */}
       {/* <Course /> */}
-      <TelephoneGuide />
+      {/* <TelephoneGuide /> */}
+      {/* <ArchivoPrueba /> */}
+      {/* <TelephoneGuideServer /> */}
+      <CountrySearchApi />
     </div>
   );
 }
