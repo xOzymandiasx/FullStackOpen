@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CountryForm from "./CountryForm";
 import CountryCard from "./CountryCard";
 
@@ -9,7 +9,7 @@ const CountrySearchApi = () => {
   const capitalizeWord = (words) => {
     let capitalizedWord = words.split(" ");
     capitalizedWord.forEach((item, index) => {
-      capitalizedWord[index] = item.charAt(0).toUpperCase() + item.slice(1);
+      capitalizedWord[index] = item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
     });
     capitalizedWord = capitalizedWord.join(" ");
     return capitalizedWord;
@@ -24,6 +24,10 @@ const CountrySearchApi = () => {
     setCountryDb(data.filter((item) => item.name.common.startsWith(capitalizeWord(e.target.value))));
   };
 
+  const showCountry = (index) => {
+    setCountryDb([countryDb[index]])
+  }
+
   return (
     <div>
       <h1>Search country</h1>
@@ -32,7 +36,7 @@ const CountrySearchApi = () => {
       ? <p>Too many mathces</p> 
       : countryDb.length === 1 
         ? <CountryCard data={countryDb}/>
-        : countryDb.map(item=> <p>{item.name.common}</p>)
+        : countryDb.map((item, index) => <p key={index}>{item.name.common} <button onClick={()=> showCountry(index)}>Show</button></p>)
       }
     </div>
   );

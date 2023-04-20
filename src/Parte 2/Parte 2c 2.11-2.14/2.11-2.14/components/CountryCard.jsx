@@ -1,22 +1,8 @@
-import React from "react";
-
 const CountryCard = ({ data }) => {
   console.log(data);
-  const { name, capital, population, languages } = data[0];
-
-  // const renderLanguages = () => {
-  //   for (let language in languages) {
-  //     return (
-  //       <><ul>{languages[language]}</ul></>
-  //     )
-  //   }
-  // }
-  for (let language in languages) {
-    let list = document.querySelector(".languages-list")
-    let newUl = document.createElement("li");
-    newUl.textContent = languages[language];
-    list.appendChild(newUl);
-  }
+  const { name, capital, population, languages, flags } = data[0];
+  const {alt, png} = flags;
+  const languagesArray = Object.values(languages);
 
   return (
     <div>
@@ -26,14 +12,10 @@ const CountryCard = ({ data }) => {
 
       <h3>Languages</h3>
 
-      <ul className="languages-list">
-        {/* {data.map(item => {
-          for(let language in item.languages) {
-            console.log(item.languages[language])
-            
-          }
-        })} */}
+      <ul>
+       {languagesArray.map((item, index) => <li key={index}>{item}</li>)}
       </ul>
+      <img src={png} alt={alt}/>
     </div>
   );
 };
