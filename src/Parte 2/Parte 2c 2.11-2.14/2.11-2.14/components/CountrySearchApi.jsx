@@ -25,8 +25,8 @@ const CountrySearchApi = () => {
   };
 
   const showCountry = (index) => {
-    setCountryDb([countryDb[index]])
-  }
+    setCountryDb([countryDb[index]]);
+  };
 
   return (
     <div>
