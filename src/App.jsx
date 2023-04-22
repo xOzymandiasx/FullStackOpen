@@ -1,5 +1,5 @@
 import "./App.css";
-import ArchivoPrueba from "./ArchivoPrueba";
+import ArchivoPrueba from "./Carpeta Practicas/ArchivoPrueba";
 import CountrySearchApi from "./Parte 2/Parte 2c 2.11-2.14/2.11-2.14/components/CountrySearchApi";
 // import TelephoneGuideServer from "./Parte 2/Parte 2c 2.11-2.14/2.11/components/TelephoneGuideServer";
 // import TelephoneGuide from "./Parte 2/Parte 2b 2.6-2.10/components/TelephoneGuide";
@@ -23,9 +23,9 @@ function App() {
       {/* <Anecdotes /> */}
       {/* <Course /> */}
       {/* <TelephoneGuide /> */}
-      {/* <ArchivoPrueba /> */}
+      <ArchivoPrueba />
       {/* <TelephoneGuideServer /> */}
-      <CountrySearchApi />
+      {/* <CountrySearchApi /> */}
     </div>
   );
 }
