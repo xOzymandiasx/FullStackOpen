@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Notes from "./Notes";
+import noteService from "./Services/notes";
 
 const ArchivoPrueba = () => {
   const [notes, setNotes] = useState([]);
@@ -8,8 +9,8 @@ const ArchivoPrueba = () => {
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/notes")
-      .then(res => setNotes(res.data));
+    noteService.getAll()
+    .then(res => setNotes(res));
   }, []);
 
   const toggleImportance = async (id) => {
@@ -22,7 +23,7 @@ const ArchivoPrueba = () => {
 
   return (
   <div>
-    {notes.map(item => <Notes key={notes.id} note={item} toggleImportance={toggleImportance} />)}
+    {notes.map(item => <Notes key={item.id} note={item} toggleImportance={toggleImportance} />)}
   </div>
   );
 };
