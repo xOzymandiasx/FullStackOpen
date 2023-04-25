@@ -12,4 +12,14 @@ const create = async (person) => {
   return data;
 };
 
-export default {getAll, create};
+const del = async (id) => {
+  const {data} = await axios.delete(`${url}/${id}`);
+  return data;
+};
+
+const update = async (person) => {
+  const {data} = await axios.put(`${url}/${person.id}`, person);
+  return data;
+};
+
+export default {getAll, create, del, update};

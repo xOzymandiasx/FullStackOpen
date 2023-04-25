@@ -1,12 +1,14 @@
 import React from "react";
 
-const TelephonePersons = ({ data }) => {
-  const { name, number } = data;
+const TelephonePersons = ({ data, deletePerson }) => {
+  const { name, number, id } = data;
 
   return (
     <>
-      <li>Name: {name}</li>
-      <li>Number: {number}</li>
+      <li style={{ listStyleType: "none" }}>
+        Name: {name} Number: {number}{" "}
+        <button onClick={() => deletePerson(id, name)}>Delete</button>
+      </li>
     </>
   );
 };
