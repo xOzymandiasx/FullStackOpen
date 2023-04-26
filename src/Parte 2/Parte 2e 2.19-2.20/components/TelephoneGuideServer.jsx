@@ -3,12 +3,14 @@ import ThelephoneForm from "./ThelephoneForm";
 import TelephonePersons from "./TelephonePersons";
 import ThelephoneFilterForm from "./ThelephoneFilterForm";
 import tgs from "../services/telephoneGuideServices";
+import Notifcation from "./Notifcation";
 
 const newNameInitialState = { name: "", number: "" };
 
 const TelephoneGuideServer = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState(newNameInitialState);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     tgs.getAll().then((res) => setPersons(res));
@@ -28,14 +30,22 @@ const TelephoneGuideServer = () => {
       if (confirm) {
         let person = persons.filter((item) => item.name === newName.name);
         let personToUpdate = { ...newName, id: person[0].id };
-        tgs
-          .update(personToUpdate)
-          .then((res) =>
-            setPersons(persons.map((item) => (item.id === res.id ? res : item)))
-          );
+        tgs.update(personToUpdate).then((res) => {
+          setMessage(`${res.name} was updated`);
+          setPersons(persons.map((item) => (item.id === res.id ? res : item)));
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        });
       }
     } else {
-      tgs.create(newName).then((res) => setPersons(persons.concat(res)));
+      tgs.create(newName).then((res) => {
+        setMessage(`${res.name} was add`);
+        setPersons(persons.concat(res));
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      });
       setNewName(newNameInitialState);
     }
   };
@@ -55,7 +65,15 @@ const TelephoneGuideServer = () => {
   const deletePerson = (id, name) => {
     let confirm = window.confirm(`Delete ${name}?`);
     if (confirm) {
-      tgs.del(id).then((res) => console.log(res));
+      tgs.del(id).catch((error) => {
+        setMessage({
+          content: `Information of ${name} has already been removed from the server`,
+          error: true,
+        });
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      });
       setPersons(persons.filter((item) => item.id !== id));
     } else {
       return;
@@ -75,7 +93,8 @@ const TelephoneGuideServer = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Notifcation message={message} />
       <ThelephoneFilterForm handleFilterChange={handleFilterChange} />
       <h2>Add a new</h2>
       <ThelephoneForm
