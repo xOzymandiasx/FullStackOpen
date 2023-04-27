@@ -31,7 +31,7 @@ const TelephoneGuideServer = () => {
         let person = persons.filter((item) => item.name === newName.name);
         let personToUpdate = { ...newName, id: person[0].id };
         tgs.update(personToUpdate).then((res) => {
-          setMessage(`${res.name} was updated`);
+          setMessage({content: `${res.name} was updated`, error: false});
           setPersons(persons.map((item) => (item.id === res.id ? res : item)));
           setTimeout(() => {
             setMessage(null);
@@ -40,7 +40,7 @@ const TelephoneGuideServer = () => {
       }
     } else {
       tgs.create(newName).then((res) => {
-        setMessage(`${res.name} was add`);
+        setMessage({content:`${res.name} was add`, error: false});
         setPersons(persons.concat(res));
         setTimeout(() => {
           setMessage(null);
