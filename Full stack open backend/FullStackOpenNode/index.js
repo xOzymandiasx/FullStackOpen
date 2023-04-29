@@ -30,6 +30,16 @@ const generateId = () => {
   return maxId + 1;
 };
 
+const requestLogger = (request, response, next) => {
+  console.log("Method:", request.method);
+  console.log("Path:  ", request.path);
+  console.log("Body:  ", request.body);
+  console.log("---");
+  next();
+};
+
+app.use(requestLogger);
+
 // node.js puro
 // const app = http.createServer((request, response) => {
 //   response.writeHead(200, { "Content-Type": "application/json" });
@@ -63,7 +73,7 @@ app.post("/api/notes", (request, response) => {
     content: body.content,
     important: body.important || false,
     date: new Date(),
-    id: generateId()
+    id: generateId(),
   };
 
   notes.concat(note);
@@ -75,6 +85,12 @@ app.delete("/api/notes/:id", (request, response) => {
   notes = notes.filter((item) => item.id !== id);
   response.status(204).end();
 });
+
+const unknowEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknow endpoint" });
+};
+
+app.use(unknowEndpoint);
 
 const PORT = 3001;
 app.listen(PORT);
