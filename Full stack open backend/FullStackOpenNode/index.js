@@ -1,7 +1,9 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 let notes = [
   {
@@ -39,6 +41,7 @@ const requestLogger = (request, response, next) => {
 };
 
 app.use(requestLogger);
+app.use(express.static('dist'));
 
 // node.js puro
 // const app = http.createServer((request, response) => {
@@ -80,6 +83,12 @@ app.post("/api/notes", (request, response) => {
   response.json(note);
 });
 
+app.put("/api/notes/:id", (request, response) => {
+  const {body} = request;
+  notes = notes.map(item => item.id === body.id ? body : item);
+  response.status(200).json(body);
+})
+
 app.delete("/api/notes/:id", (request, response) => {
   const id = Number(request.params.id);
   notes = notes.filter((item) => item.id !== id);
@@ -92,6 +101,5 @@ const unknowEndpoint = (request, response) => {
 
 app.use(unknowEndpoint);
 
-const PORT = 3001;
-app.listen(PORT);
-console.log(`Server running on port ${PORT}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
