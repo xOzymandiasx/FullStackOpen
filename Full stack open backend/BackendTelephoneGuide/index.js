@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 app.use(express.json());
+app.use(cors());
+app.use(express.static("dist"));
 
 morgan.token("body", req => JSON.stringify(req.body));
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"));
@@ -72,7 +75,7 @@ app.post("/api/persons", (request, response) => {
   };
 
   persons.concat(person);
-  response.json(person);
+  response.status(200).json(person);
 });
 
 app.delete("/api/persons/:id", (request, response) => {
@@ -81,5 +84,10 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
-const PORT = 3001;
+const unknowEndpoint = (request, response) => {
+  response.status(404).send({error: "Unknow endpoint"});
+};
+app.use(unknowEndpoint);
+
+const PORT = process.env.PORT ||3001;
 app.listen(PORT);
