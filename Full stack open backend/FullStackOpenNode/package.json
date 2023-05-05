@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon mongo.js",
+    "dev": "nodemon index.js",
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
     "push-data": "git add . && git commit -m backBuild && git push -u origin main"
   },
