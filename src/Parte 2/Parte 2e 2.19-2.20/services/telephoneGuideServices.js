@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:5000/persons";
+const url = "http://localhost:3001/api/persons";
 
 const getAll = async () => {
   const {data} = await axios.get(url);

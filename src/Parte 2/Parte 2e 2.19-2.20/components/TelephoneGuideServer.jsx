@@ -39,13 +39,20 @@ const TelephoneGuideServer = () => {
         });
       }
     } else {
-      tgs.create(newName).then((res) => {
+      tgs.create(newName)
+       .then((res) => {
         setMessage({content:`${res.name} was add`, error: false});
         setPersons(persons.concat(res));
         setTimeout(() => {
           setMessage(null);
         }, 5000);
-      });
+      })
+       .catch(error => {
+        setMessage({content: error.response.data.error, error: true});
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+       });
       setNewName(newNameInitialState);
     }
   };

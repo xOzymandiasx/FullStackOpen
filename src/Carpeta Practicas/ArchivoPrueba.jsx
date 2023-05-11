@@ -12,6 +12,8 @@ const ArchivoPrueba = () => {
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const baseUrl = "http://localhost:3001/api/notes";
+
   useEffect(() => {
     noteService.getAll()
     .then(res => setNotes(res));
@@ -20,7 +22,7 @@ const ArchivoPrueba = () => {
   const toggleImportance = async (id) => {
     const note = notes.find(item => item.id === id);
     const changedNote = {...note, important: !note.important };
-    const {data} = await axios.put(`http://localhost:5000/notes/${id}`, changedNote)
+    const {data} = await axios.put(`${baseUrl}/${id}`, changedNote)
      .catch(error => {
       setErrorMessage(
         `Note '${note.content}' was already removed from server`
