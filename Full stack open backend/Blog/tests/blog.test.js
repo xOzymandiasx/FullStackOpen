@@ -1,6 +1,8 @@
 const dummy = require("../utils/list_helper").dummy;
 const totalLikes = require("../utils/list_helper").totalLikes;
 const favoriteBlog = require("../utils/list_helper").favoriteBlog;
+const mostBlogs = require("../utils/list_helper").mostBlogs;
+const mostLikes = require("../utils/list_helper").mostLikes;
 
 test("Dummy return 1", () => {
   const blogs = [];
@@ -141,5 +143,9 @@ describe("Cuantity of likes in blogs", () => {
 
   test("Blog with more likes", () => {
     expect(favoriteBlog(blogs)).toEqual(blogs[2]);
+  });
+
+  test("Hola", ()=> {
+    mostLikes(blogs);
   });
 });
