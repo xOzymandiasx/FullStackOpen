@@ -2,16 +2,24 @@ const notesRouter = require("express").Router();
 const Note = require("../models/note");
 
 
-notesRouter.get("/", (request, response) => {
-  Note.find({}).then((res) => {
-    response.status(200).json(res);
-  });
+notesRouter.get("/", async (request, response) => {
+  const notes = await Note.find({});
+  response.status(200).json(notes);
+  // Note.find({}).then((res) => {
+  //   response.status(200).json(res);
+  // });
 });
 
-notesRouter.get("/:id", (request, response, next) => {
-  Note.findById(request.params.id)
-   .then(res => res ? response.status(200).json(res) : response.status(404).end())
-   .catch(error => next(error));
+notesRouter.get("/:id", async (request, response, next) => {
+  const noteToFind = await Note.findById(request.params.id);
+  try {
+    response.status(200).json(noteToFind);
+  } catch(error) {
+    next(error);
+  };
+  // Note.findById(request.params.id)
+  //  .then(res => res ? response.status(200).json(res) : response.status(404).end())
+  //  .catch(error => next(error));
   //  .catch(error => {
   //   console.log(error);
   //   response.status(400).send({error: "Malformated id"});
@@ -21,7 +29,7 @@ notesRouter.get("/:id", (request, response, next) => {
   // note ? response.json(note) : response.status(404).end();
 });
 
-notesRouter.post("/", (request, response, next) => {
+notesRouter.post("/", async (request, response, next) => {
   const {body} = request;
   if (body.content === undefined) {
     return response.status(400).json({
@@ -45,9 +53,16 @@ notesRouter.post("/", (request, response, next) => {
     date: new Date(),
   });
 
-  note.save()
-   .then((res) => response.json(res.toJSON()))
-   .catch(error => next(error));
+  try {
+    const savedNote = await note.save()
+    response.json(savedNote);
+  } catch(exception){
+    next(exception)
+  };
+
+  // note.save()
+  //  .then((res) => response.json(res.toJSON()))
+  //  .catch(error => next(error));
 });
 
 notesRouter.put("/:id", (request, response, next) => {
@@ -66,10 +81,17 @@ notesRouter.put("/:id", (request, response, next) => {
   // response.status(200).json(body);
 });
 
-notesRouter.delete("/:id", (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id)
-   .then(res => response.status(204).end())
-   .catch(error => next(error));
+notesRouter.delete("/:id", async (request, response, next) => {
+
+  try {
+    await Note.findByIdAndRemove(request.params.id);
+    response.status(204).end();
+  } catch(error) {
+    next(error);
+  };
+  // Note.findByIdAndRemove(request.params.id)
+  //  .then(res => response.status(204).end())
+  //  .catch(error => next(error));
   // const id = Number(request.params.id);
   // notes = notes.filter((item) => item.id !== id);
   // response.status(204).end();
