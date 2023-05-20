@@ -10,10 +10,22 @@ const api = superTest(app); //No hace falta realizar la conección de la app, su
 
 beforeEach(async () => {
   await Note.deleteMany({});
-  let noteObject = new Note(initialNotes[0]);
-  await noteObject.save();
-  noteObject = new Note(initialNotes[1]);
-  await noteObject.save();
+  console.log("Cleared");
+
+  for (let note of initialNotes) {
+    const noteObject = new Note(note)
+    await noteObject.save();
+  };
+
+  // const noteObjects = initialNotes.map(item => new Note(item));
+  // const promiseArray = noteObjects.map(item => item.save());
+  // await Promise.all(promiseArray); // la función asincrona beforEach no espera la ejecuccion de otras operaciones asincronas, a menos que realicemos el siguiete metodo.
+
+  // let noteObject = new Note(initialNotes[0]);
+  // await noteObject.save();
+
+  // noteObject = new Note(initialNotes[1]);
+  // await noteObject.save();
 }); //Modifica la base de datos antes de realizarse los tests.
 
 test("Notes are returned as Json", async () => {
