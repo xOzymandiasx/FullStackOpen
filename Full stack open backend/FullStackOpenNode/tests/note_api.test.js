@@ -6,7 +6,7 @@ const {initialNotes, nonExistingId, notesInDb} = helper;
 const Note = require("../models/note");
 
 
-const api = superTest(app); //No hace falta realizar la conección de la app, supertes se encarga de eso
+const api = superTest(app); //No hace falta realizar la conección de la app, supertest se encarga de eso
 
 beforeEach(async () => {
   await Note.deleteMany({});
