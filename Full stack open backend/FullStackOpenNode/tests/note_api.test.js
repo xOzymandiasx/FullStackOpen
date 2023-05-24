@@ -28,12 +28,57 @@ beforeEach(async () => {
   // await noteObject.save();
 }); //Modifica la base de datos antes de realizarse los tests.
 
+describe('when there is initially some notes saved', () => {
 test("Notes are returned as Json", async () => {
   await api
     .get("/api/notes")
     .expect(200) //Métodos de supertest
     .expect("Content-Type", /application\/json/);
 }, 100000); //Para que tenga limite de espera
+
+test('all notes are returned', async () => {
+  const response = await api.get('/api/notes')
+
+  expect(response.body).toHaveLength(initialNotes.length)
+});
+
+test('a specific note is within the returned notes', async () => {
+  const response = await api.get('/api/notes')
+
+  const contents = response.body.map(r => r.content)
+
+  expect(contents).toContain('Browser can execute only Javascript')
+});
+
+});
+
+describe('viewing a specific note', () => {
+
+  test('succeeds with a valid id', async () => {
+    const notesAtStart = await helper.notesInDb()
+
+    const noteToView = notesAtStart[0]
+
+    const resultNote = await api
+      .get(`/api/notes/${noteToView.id}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+      
+    const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
+
+    expect(resultNote.body).toEqual(processedNoteToView)
+  });
+
+  test('fails with statuscode 404 if note does not exist', async () => {
+    const validNonexistingId = 5555;
+
+    console.log(validNonexistingId)
+
+    await api
+      .get(`/api/notes/${validNonexistingId}`)
+      .expect(404)
+  });
+});
 
 test("There are two notes", async () => {
   const response = await api.get("/api/notes");

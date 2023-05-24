@@ -14,11 +14,11 @@ const initialNotes = [
 ];
 
 const nonExistingId = async () => {
-  const newNote = Note({content: "willremovethissoon", date: new Date()});
-  await newNote.save();
-  await newNote.remove();
+  const note = new Note({ content: 'willremovethissoon', date: new Date() })
+  await note.save()
+  await note.remove()
 
-  return newNote._id.toString();
+  return note._id.toString()
 };
 
 const notesInDb = async () => {
