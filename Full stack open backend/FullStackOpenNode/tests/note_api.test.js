@@ -78,7 +78,63 @@ describe('viewing a specific note', () => {
       .get(`/api/notes/${validNonexistingId}`)
       .expect(404)
   });
+
 });
+
+describe("Addition of a new note", ()=> {
+
+  test("Succeeds with valid data", async () => {
+    const newNote = {
+      content: "async/await simplifies making async calls",
+      important: true,
+    };
+  
+    await api
+      .post("/api/notes")
+      .send(newNote)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+  
+    const notesAtEnd = await notesInDb();
+    console.log(notesAtEnd)
+    expect(notesAtEnd).toHaveLength(notesAtEnd.length);
+  
+    const contents = notesAtEnd.map(item => item.content);
+    expect(contents).toContain("async/await simplifies making async calls");
+  });
+
+  test("Fails with status code 400 if data invalid", async () => {
+    const newNote = {
+      important: true
+    };
+  
+    await api
+      .post("/api/notes")
+      .send(newNote)
+      .expect(400);
+  
+      const notesAtEnd = await notesInDb();
+      expect(notesAtEnd).toHaveLength(notesAtEnd.length);
+  });
+});
+
+describe("Deletion of a note", ()=> {
+
+  test("succeeds with status code 204 if id is valid", async () => {
+    const notesAtStart = await notesInDb();
+    const noteToDelte = notesAtStart[0];
+  
+    await api
+     .delete(`/api/notes/${noteToDelte.id}`)
+     .expect(204)
+  
+    const notesAtEnd = await notesInDb();
+    expect(notesAtEnd).toHaveLength(initialNotes.length - 1);
+  
+    const contents = notesAtEnd.map(item => item.content);
+    expect(contents).not.toContain(noteToDelte.content);
+  });
+})
 
 test("There are two notes", async () => {
   const response = await api.get("/api/notes");
@@ -89,40 +145,6 @@ test("The first note is about HTTP methods", async () => {
   const response = await api.get("/api/notes");
   const content = response.body.map((item) => item.content);
   expect(content).toContain("Browser can execute only Javascript");
-});
-
-test("A valid note can be add", async () => {
-  const newNote = {
-    content: "async/await simplifies making async calls",
-    important: true,
-  };
-
-  await api
-    .post("/api/notes")
-    .send(newNote)
-    .expect(200)
-    .expect("Content-Type", /application\/json/);
-
-  const notesAtEnd = await notesInDb();
-  console.log(notesAtEnd)
-  expect(notesAtEnd).toHaveLength(notesAtEnd.length);
-
-  const contents = notesAtEnd.map(item => item.content);
-  expect(contents).toContain("async/await simplifies making async calls");
-});
-
-test("Note without content is not added", async () => {
-  const newNote = {
-    important: true
-  };
-
-  await api
-    .post("/api/notes")
-    .send(newNote)
-    .expect(400);
-
-    const notesAtEnd = await notesInDb();
-    expect(notesAtEnd).toHaveLength(notesAtEnd.length);
 });
 
 test("A specific note can be viewed", async () => {
@@ -140,20 +162,7 @@ test("A specific note can be viewed", async () => {
    expect(resultNote.body).toEqual(processedNoteToView);
 });
 
-test("A note can be deleted", async () => {
-  const notesAtStart = await notesInDb();
-  const noteToDelte = notesAtStart[0];
 
-  await api
-   .delete(`/api/notes/${noteToDelte.id}`)
-   .expect(204)
-
-  const notesAtEnd = await notesInDb();
-  expect(notesAtEnd).toHaveLength(initialNotes.length - 1);
-
-  const contents = notesAtEnd.map(item => item.content);
-  expect(contents).not.toContain(noteToDelte.content);
-});
 
 afterAll(() => {
   mongoose.connection.close();
