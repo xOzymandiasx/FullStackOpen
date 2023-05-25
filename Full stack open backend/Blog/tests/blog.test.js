@@ -166,6 +166,56 @@ test("Blogs are returned as Json", () => {
 
 }, 10000);
 
+test("Blogs have an id key", async () => {
+  const response = await api.get("/api/blogs");
+  expect(response.body[0].id).toBeDefined(); //Para comprobar que la propiedad "id" esté definida
+});
+
+test("A blog can be added", async () => {
+  const newBlog = {
+    title: "Patrones en React",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 10,
+  };
+
+  await api 
+   .post("/api/blogs")
+   .send(newBlog)
+   .expect(201)
+   .expect("Content-Type", /application\/json/);
+
+   const response = await api.get("/api/blogs");
+   expect(response.body).toHaveLength(blogs.length + 1);
+});
+
+test("A blog without likes can be added", async() => {
+  const newBlog = {
+    title: "Patrones en Vue",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+  };
+
+  await api
+   .post("/api/blogs")
+   .send(newBlog)
+   .expect(201)
+   .expect("Content-Type", /application\/json/);
+});
+
+test("Blog cant be added if dont have title or url", async() => {
+  const newBlog = {
+    url: "https://reactpatterns.com/",
+    likes: 10,
+  };
+
+  await api
+   .post("/api/blogs")
+   .send(newBlog)
+   .expect(400)
+   .expect("Content-Type", /application\/json/);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
