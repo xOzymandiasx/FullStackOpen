@@ -2,31 +2,33 @@ const mongoose = require("mongoose");
 const superTest = require("supertest");
 const app = require("../app");
 const helper = require("./test_helper");
-const {initialNotes, nonExistingId, notesInDb} = helper;
+const {initialNotes, nonExistingId, notesInDb, usersInDb} = helper;
+const bcrypt = require("bcrypt");
 const Note = require("../models/note");
+const User = require("../models/users");
 
 
 const api = superTest(app); //No hace falta realizar la conección de la app, supertest se encarga de eso
 
-beforeEach(async () => {
-  await Note.deleteMany({});
-  console.log("Cleared");
+// beforeEach(async () => {
+//   await Note.deleteMany({});
+//   console.log("Cleared");
 
-  for (let note of initialNotes) {
-    const noteObject = new Note(note)
-    await noteObject.save();
-  };
+//   for (let note of initialNotes) {
+//     const noteObject = new Note(note)
+//     await noteObject.save();
+//   };
 
-  // const noteObjects = initialNotes.map(item => new Note(item));
-  // const promiseArray = noteObjects.map(item => item.save());
-  // await Promise.all(promiseArray); // la función asincrona beforEach no espera la ejecuccion de otras operaciones asincronas, a menos que realicemos el siguiete metodo.
+//   // const noteObjects = initialNotes.map(item => new Note(item));
+//   // const promiseArray = noteObjects.map(item => item.save());
+//   // await Promise.all(promiseArray); // la función asincrona beforEach no espera la ejecuccion de otras operaciones asincronas, a menos que realicemos el siguiete metodo.
 
-  // let noteObject = new Note(initialNotes[0]);
-  // await noteObject.save();
+//   // let noteObject = new Note(initialNotes[0]);
+//   // await noteObject.save();
 
-  // noteObject = new Note(initialNotes[1]);
-  // await noteObject.save();
-}); //Modifica la base de datos antes de realizarse los tests.
+//   // noteObject = new Note(initialNotes[1]);
+//   // await noteObject.save();
+// }); //Modifica la base de datos antes de realizarse los tests.
 
 describe('when there is initially some notes saved', () => {
 test("Notes are returned as Json", async () => {
@@ -134,7 +136,40 @@ describe("Deletion of a note", ()=> {
     const contents = notesAtEnd.map(item => item.content);
     expect(contents).not.toContain(noteToDelte.content);
   });
-})
+});
+
+describe("when there is initially one user in db", ()=> {
+  beforeEach(async () => {
+    await User.deleteMany({});
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  });
+
+  test('creation succeeds with a fresh username', async() => { 
+    const usersAtStart = await usersInDb();
+
+    const newUser = {
+      username: "Roquefort",
+      name: "Sao",
+      password: "rararar"
+    };
+
+    await api
+     .post("/api/users")
+     .send(newUser)
+     .expect(200)
+     .expect("Content-Type", /application\/json/);
+
+    const usersAtTheEnd = await usersInDb();
+    expect(usersAtTheEnd).toHaveLength(usersAtStart.length + 1);
+    
+    const usernames = usersAtTheEnd.map(item => item.username);
+    expect(usernames).toContain(newUser.username);
+   });
+});
 
 test("There are two notes", async () => {
   const response = await api.get("/api/notes");
@@ -161,8 +196,6 @@ test("A specific note can be viewed", async () => {
 
    expect(resultNote.body).toEqual(processedNoteToView);
 });
-
-
 
 afterAll(() => {
   mongoose.connection.close();

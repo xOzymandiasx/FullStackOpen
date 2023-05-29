@@ -1,4 +1,5 @@
 const Note = require("../models/note");
+const User = require("../models/users");
 
 const initialNotes = [
   {
@@ -26,4 +27,9 @@ const notesInDb = async () => {
   return notes.map(item => item.toJSON());
 };
 
-module.exports = {initialNotes, nonExistingId, notesInDb};
+const usersInDb = async() => {
+  const users = await User.find({});
+  return users.map(item => item.toJSON());
+};
+
+module.exports = {initialNotes, nonExistingId, notesInDb, usersInDb};
