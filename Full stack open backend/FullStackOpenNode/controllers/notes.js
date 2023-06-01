@@ -1,7 +1,15 @@
 const notesRouter = require("express").Router();
+const jwt = require("jsonwebtoken");
 const Note = require("../models/note");
 const User = require("../models/users");
 
+const getTokenFrom = request => {
+  const authorization = request.get("authorization");
+  console.log("Esto es lo que contiene la autorizacion:", authorization);
+  if (authorization && authorization.toLowerCase().startsWith("bearer")) return authorization.substring(7);
+  //Aisla el token del encabezado "authorization";
+  return null;
+};
 
 notesRouter.get("/", async (request, response) => {
   const notes = await Note.find({}).populate("user", { username: 1, name: 1 });
@@ -36,8 +44,11 @@ notesRouter.post("/", async (request, response, next) => {
     return response.status(400).json({
       error: "error missing",
     });
-  }
+  };
 
+  const token = getTokenFrom(request); //Toma el token del usuario desde el navegador del cual se logeo;
+  const decodedToken = jwt.verify(token, process.env.SECRET); //Verifica el token recibido con el token almacenado;
+  if (!token || !decodedToken.id) return response.status(401).json({error: "token missing or invalid"});
   // const note = {
   //   content: body.content,
   //   important: body.important || false,
@@ -48,7 +59,7 @@ notesRouter.post("/", async (request, response, next) => {
   // notes.concat(note);
   // response.json(note);
 
-  const user = await User.findById(body.userId);
+  const user = await User.findById(decodedToken.id); //Toma los datos directamente de lo recibido de la llamada al token;
 
   const note = new Note({
     content: body.content,
