@@ -48,6 +48,7 @@ notesRouter.post("/", async (request, response, next) => {
 
   const token = getTokenFrom(request); //Toma el token del usuario desde el navegador del cual se logeo;
   const decodedToken = jwt.verify(token, process.env.SECRET); //Verifica el token recibido con el token almacenado;
+  console.log("Acá esta el contenido del token decodificado", decodedToken);
   if (!token || !decodedToken.id) return response.status(401).json({error: "token missing or invalid"});
   // const note = {
   //   content: body.content,
