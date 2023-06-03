@@ -20,7 +20,7 @@ loginRouter.post("/", async(request, response) => {
     id: user._id
   }; //Los datos que se guardan para despues poder verificar el id;
 
-  const token = jwt.sign(userForToken, process.env.SECRET); //En este paso se guardan los datps en el archivo ENV;
+  const token = jwt.sign(userForToken, process.env.SECRET, {expiresIn: 60*60}); //En este paso se guardan los datos en el archivo ENV y se le pone un vencumiento al token de 1 hora;
 
   response.status(200).send({token, username: user.username, name: user.name});
 });
