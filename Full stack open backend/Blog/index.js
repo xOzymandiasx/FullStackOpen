@@ -26,7 +26,6 @@ const logger = require("./utils/logger");
 //   });
 // });
 
-
 const server = http.createServer(app);
 
 server.listen(PORT, () => {
