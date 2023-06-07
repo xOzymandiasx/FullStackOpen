@@ -7,11 +7,20 @@ userRouter.get("/", async(request, response) => {
   response.status(200).json(users);
 });
 
+userRouter.get("/:id", async(request, response, next) => {
+  try {
+    const user = await User.findById(request.params.id).populate("blogs", {title: 1, author: 1});
+    response.status(200).json(user);
+  }catch(error) {
+    next(error);
+  }
+});
+
 userRouter.post("/", async(request, response, next) => {
   const {body} = request;
 
   if (body.username.trim() === undefined || body.username.trim() === "" || body.password.trim() === undefined) return response.status(400).json({error: "Username or password are not defined"});
-  if (body.username.trim().length <= 3 || body.password.trim().length <= 3) return response.status(400).json({error: "Username or password are too short"});
+  if (body.username.trim().length < 3 || body.password.trim().length < 3) return response.status(400).json({error: "Username or password are too short"});
 
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(body.password, saltRounds);
