@@ -20,4 +20,11 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
-module.exports = { requestLogger, unknownEndpoint, errorHandler };
+const tokenStractor = (request, response, next) => {
+  const authorization = request.get("authorization");
+
+  if (authorization && authorization.toLowerCase().startsWith("bearer")) return authorization.substring(7);
+  next();
+};
+
+module.exports = { requestLogger, unknownEndpoint, errorHandler, tokenStractor };
