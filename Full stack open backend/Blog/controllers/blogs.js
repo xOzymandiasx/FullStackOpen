@@ -3,11 +3,6 @@ const jwt = require("jsonwebtoken");
 const Blog = require("../models/blog");
 const User = require("../models/user");
 
-const getTokenFrom = request => {
-  const authorization = request.get("authorization");
-  if (authorization && authorization.toLowerCase().startsWith("bearer")) return authorization.substring(7);
-  return null;
-}
 
 blogRouters.get("/", async (request, response) => {
   try {
@@ -22,15 +17,13 @@ blogRouters.get("/", async (request, response) => {
   // });
 });
 
-
 blogRouters.post("/", async (request, response, next) => {
   const {body} = request;
   if (body.title === undefined || body.url === undefined) return response.status(400).json({error: "Tittle or url missed"});
 
-  const token = getTokenFrom(request);
-  const decodedToken = jwt.verify(token, process.env.SECRET);
+  const decodedToken = jwt.verify(request.token, process.env.SECRET); //La obtención del token ahora se realiza a traves de un middleware y se lo asiga al objeto request;
 
-  if (!token || !decodedToken.id) return response.status(401).json({error: "token missing or invalid"});
+  if (!decodedToken.id) return response.status(401).json({error: "token missing or invalid"});
 
   const user = await User.findById(decodedToken.id);
   const blog = new Blog({...request.body, likes: body.likes || 0, user: user._id});
@@ -49,12 +42,26 @@ blogRouters.post("/", async (request, response, next) => {
 });
 
 blogRouters.delete("/:id", async(request, response, next) => {
-  try {
-    await Blog.findByIdAndRemove(request.params.id);
-    response.status(204).end();
-  }catch(error) {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  if (!decodedToken.id) return response.status(401).json({error: "Invalid or incorrect token"});
+
+  try{
+    const user = await User.findById(decodedToken.id);
+    const blog = await Blog.findById(request.params.id);  
+    if (blog.user.toString() === user._id.toString()) {
+      await Blog.findByIdAndRemove(blog)
+      response.status(204).end();
+    }
+  }catch(error){
     next(error);
-  };
+  }
+
+  // try {
+  //   await Blog.findByIdAndRemove(request.params.id);
+  //   response.status(204).end();
+  // }catch(error) {
+  //   next(error);
+  // };
 });
 
 blogRouters.put("/:id", async(request, response, next) => {

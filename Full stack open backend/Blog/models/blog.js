@@ -26,4 +26,5 @@ blogScheema.set("toJSON", {
   }
 });
 
-module.exports = mongoose.model("Blog", blogScheema);
+const Blog = mongoose.model("Blog", blogScheema);
+module.exports = Blog;

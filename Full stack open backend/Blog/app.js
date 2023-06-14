@@ -20,7 +20,7 @@ mongoose.connect(mongoUrl)
  app.use(express.json());
  app.use(middleware.requestLogger);
  app.use(middleware.tokenStractor);
- app.use("/api/blogs", blogsRouter);
+ app.use("/api/blogs", middleware.userExtractor,blogsRouter);//Este middleware solo se ejecuta con las rutas de blogs;
  app.use("/api/users", userRouter);
  app.use("/api/login", loginRouter);
  app.use(middleware.unknownEndpoint);
