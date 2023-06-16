@@ -23,8 +23,8 @@ function App() {
       {/* <Anecdotes /> */}
       {/* <Course /> */}
       {/* <TelephoneGuide /> */}
-      {/* <ArchivoPrueba /> */}
-      <TelephoneGuideServer />
+      <ArchivoPrueba />
+      {/* <TelephoneGuideServer /> */}
       {/* <CountrySearchApi /> */}
     </div>
   );

@@ -5,11 +5,15 @@ import noteService from "./Services/notes";
 import Notification from "./Notification";
 import "./styles/index.css";
 import Footer from "./Footer";
+import { UserForm } from "./UserForm";
 
 const ArchivoPrueba = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const baseUrl = "http://localhost:3001/api/notes";
@@ -39,6 +43,7 @@ const ArchivoPrueba = () => {
   <div>
     <h1>Notes</h1>
     <Notification message={errorMessage} />
+    <UserForm userLogin={{username, setUsername}} passwordLogin={{password, setPassword}} login={{user, setUser}} setErrorMessage={setErrorMessage}/>
     <ul>
       {notes.map(item => <Notes key={item.id} note={item} toggleImportance={toggleImportance} />)}
     </ul>
