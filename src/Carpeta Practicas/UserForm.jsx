@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import loginService from "./Services/login";
 
-export const UserForm = ({userLogin, passwordLogin, login, setErrorMessage}) => {
+export const UserForm = ({ login, setErrorMessage}) => {
 
-  const {username, setUsername} = userLogin;
-  const {password, setPassword} = passwordLogin;
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  
   const {user, setUser} = login;
 
   const handleLogin = async e => {

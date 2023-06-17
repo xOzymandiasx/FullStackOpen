@@ -6,13 +6,14 @@ import Notification from "./Notification";
 import "./styles/index.css";
 import Footer from "./Footer";
 import { UserForm } from "./UserForm";
+import NoteForm from "./NoteForm";
+
+const noteInitialState = {content: ""};
 
 const ArchivoPrueba = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('');
+  const [newNote, setNewNote] = useState(noteInitialState);
   const [showAll, setShowAll] = useState(true);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -38,15 +39,22 @@ const ArchivoPrueba = () => {
     });
     setNotes(notes.map(item => item.id === data.id ? data : item));
   };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const createdNote = await noteService.create(newNote);
+    setNotes(notes.concat(createdNote));
+  };
   
   return (
   <div>
     <h1>Notes</h1>
     <Notification message={errorMessage} />
-    <UserForm userLogin={{username, setUsername}} passwordLogin={{password, setPassword}} login={{user, setUser}} setErrorMessage={setErrorMessage}/>
+    <UserForm login={{user, setUser}} setErrorMessage={setErrorMessage}/>
     <ul>
       {notes.map(item => <Notes key={item.id} note={item} toggleImportance={toggleImportance} />)}
     </ul>
+    <NoteForm note={{newNote, setNewNote}} handleSubmit={handleSubmit}/>
     <Footer />
   </div>
   );
