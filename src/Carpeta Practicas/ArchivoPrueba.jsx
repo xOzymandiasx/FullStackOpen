@@ -43,18 +43,24 @@ const ArchivoPrueba = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     const createdNote = await noteService.create(newNote);
+    console.log(createdNote);
     setNotes(notes.concat(createdNote));
+    setNewNote(noteInitialState);
   };
   
   return (
   <div>
     <h1>Notes</h1>
     <Notification message={errorMessage} />
-    <UserForm login={{user, setUser}} setErrorMessage={setErrorMessage}/>
+    {user === null && <UserForm login={{user, setUser}} setErrorMessage={setErrorMessage}/>}
+    {user !== null && 
+      <div>
+        <p>{user.name} logged-in</p>
+        <NoteForm note={{newNote, setNewNote}} handleSubmit={handleSubmit}/>
+      </div>}
     <ul>
       {notes.map(item => <Notes key={item.id} note={item} toggleImportance={toggleImportance} />)}
     </ul>
-    <NoteForm note={{newNote, setNewNote}} handleSubmit={handleSubmit}/>
     <Footer />
   </div>
   );

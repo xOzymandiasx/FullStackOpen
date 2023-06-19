@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import loginService from "./Services/login";
+import noteService from "./Services/notes";
 
 export const UserForm = ({ login, setErrorMessage}) => {
 
@@ -12,6 +13,7 @@ export const UserForm = ({ login, setErrorMessage}) => {
     e.preventDefault();
     try{
       const user = await loginService.login({username, password});
+      noteService.setToken(user.token)
       setUser(user);
       setUsername("");
       setPassword("");
