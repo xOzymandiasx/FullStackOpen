@@ -13,6 +13,7 @@ export const UserForm = ({ login, setErrorMessage}) => {
     e.preventDefault();
     try{
       const user = await loginService.login({username, password});
+      window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user)); 
       noteService.setToken(user.token)
       setUser(user);
       setUsername("");

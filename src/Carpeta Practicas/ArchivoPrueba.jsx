@@ -24,6 +24,16 @@ const ArchivoPrueba = () => {
     .then(res => setNotes(res));
   }, []);
 
+  useEffect(() => {
+    const loggedUserJSON  = window.localStorage.getItem(loggedNoteappUser);
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token);
+    };
+  }, []);
+  
+
   const toggleImportance = async (id) => {
     const note = notes.find(item => item.id === id);
     const changedNote = {...note, important: !note.important };
