@@ -19,9 +19,12 @@ userRouter.get("/:id", async(request, response, next) => {
 userRouter.post("/", async(request, response, next) => {
   const {body} = request;
 
+  const existingUser = await User.findOne({username: body.username});
+
   if (body.username.trim() === undefined || body.username.trim() === "" || body.password.trim() === undefined) return response.status(400).json({error: "Username or password are not defined"});
   if (body.username.trim().length < 3 || body.password.trim().length < 3) return response.status(400).json({error: "Username or password are too short"});
-
+  if (existingUser) return response.status(400).json({error: "User already exist"});
+  
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
