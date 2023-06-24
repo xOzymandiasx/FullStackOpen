@@ -1,4 +1,5 @@
 import { useState } from "react";
+import blogService from "../services/blogService";
 
 const initialBlog = {
   title: "",
@@ -6,18 +7,23 @@ const initialBlog = {
   url: "",
 };
 
-const BlogForm = () => {
+const BlogForm = ({ actualUser }) => {
   const [blog, setBlog ] = useState(initialBlog);
+
+  const {user, setUser} = actualUser;
 
   const handleChange = e => setBlog({...blog, [e.target.name]: e.target.value});
 
   const handleSubmit = async e => {
     e.preventDefault();
-    
+    const createdBlog = await blogService.create(blog);
+    const {title, author, id} = createdBlog;
+    setUser(user.blogs.concat({title, author, id}));
+    setBlog(initialBlog);
   };
 
   return (
-    <form style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+    <form style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}} onSubmit={handleSubmit}>
       <label htmlFor="title">Title 
         <input type="text" name="title" value={blog.title} onChange={handleChange}/>
       </label>
