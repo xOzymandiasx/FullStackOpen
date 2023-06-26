@@ -7,7 +7,7 @@ const userLoginInitialState = {
   password: "",
 };
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser}) => {
   const [userLogin, setUserLogin] = useState(userLoginInitialState);
 
   const handleChange = e => {

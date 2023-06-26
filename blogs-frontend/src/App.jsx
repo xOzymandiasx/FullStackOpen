@@ -16,7 +16,6 @@ function App() {
     }; 
   }, []);
   
-  
   const userLogOut = () => {
     localStorage.clear();
     setUser(null);
@@ -36,7 +35,7 @@ function App() {
         <p>Welcome {user.username} <button onClick={userLogOut}>Log out</button></p> 
         {user.blogs.map(item => <Blogs key={item.id} blog={item}/>)}
         <h3>Create new blog</h3>
-        <BlogForm actualUser={{user, setUser}}/>
+        <BlogForm setUser={setUser}/>
       </div>
       }
     </>

@@ -7,18 +7,18 @@ const initialBlog = {
   url: "",
 };
 
-const BlogForm = ({ actualUser }) => {
+const BlogForm = ({ setUser }) => {
   const [blog, setBlog ] = useState(initialBlog);
-
-  const {user, setUser} = actualUser;
 
   const handleChange = e => setBlog({...blog, [e.target.name]: e.target.value});
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const createdBlog = await blogService.create(blog);
-    const {title, author, id} = createdBlog;
-    setUser(user.blogs.concat({title, author, id}));
+    const {title, author, id} = await blogService.create(blog);
+    const blogUser = JSON.parse(localStorage.getItem("loggedBlogUser"));
+    const newUser = {...blogUser, blogs: [...blogUser.blogs, {title, author, id}]}
+    localStorage.setItem("loggedBlogUser", JSON.stringify(newUser));
+    setUser(newUser);
     setBlog(initialBlog);
   };
 
