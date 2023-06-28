@@ -7,7 +7,7 @@ const userLoginInitialState = {
   password: "",
 };
 
-const LoginForm = ({ setUser}) => {
+const LoginForm = ({ setUser, setNotification }) => {
   const [userLogin, setUserLogin] = useState(userLoginInitialState);
 
   const handleChange = e => {
@@ -24,6 +24,10 @@ const LoginForm = ({ setUser}) => {
       setUserLogin(userLoginInitialState);
     }catch{
       console.warn("Wrong credential");
+      setNotification({state: true, notColor: "red", message: null});
+      setTimeout(() => {
+        setNotification({state: null, color: null, message: null});
+      }, 3000);
     }
   };
 

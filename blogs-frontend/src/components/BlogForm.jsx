@@ -7,19 +7,27 @@ const initialBlog = {
   url: "",
 };
 
-const BlogForm = ({ setUser }) => {
+const BlogForm = ({ setUser, setNotification }) => {
   const [blog, setBlog ] = useState(initialBlog);
 
   const handleChange = e => setBlog({...blog, [e.target.name]: e.target.value});
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const {title, author, id} = await blogService.create(blog);
-    const blogUser = JSON.parse(localStorage.getItem("loggedBlogUser"));
-    const newUser = {...blogUser, blogs: [...blogUser.blogs, {title, author, id}]}
-    localStorage.setItem("loggedBlogUser", JSON.stringify(newUser));
-    setUser(newUser);
-    setBlog(initialBlog);
+    try {
+      // const {title, author, id} = await blogService.create(blog);
+      // const blogUser = JSON.parse(localStorage.getItem("loggedBlogUser"));
+      // const newUser = {...blogUser, blogs: [...blogUser.blogs, {title, author, id}]}
+      // localStorage.setItem("loggedBlogUser", JSON.stringify(newUser));
+      // setUser(newUser);
+      setBlog(initialBlog);
+      setNotification({state: true, notColor: "green", message: "title"});
+      setTimeout(() => {
+        setNotification({state: null, notColor: null, message: null});
+      }, 7000);  
+    }catch(error) {
+      console.log(error);
+    }
   };
 
   return (
