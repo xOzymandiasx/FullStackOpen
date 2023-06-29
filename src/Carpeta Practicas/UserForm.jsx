@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import loginService from "./Services/login";
 import noteService from "./Services/notes";
 
-export const UserForm = ({ login, setErrorMessage}) => {
+export const UserForm = ({ props }) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   
-  const {user, setUser} = login;
+  const {user, setUser, setErrorMessage } = props;
 
   const handleLogin = async e => {
     e.preventDefault();
@@ -27,10 +27,14 @@ export const UserForm = ({ login, setErrorMessage}) => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <div>
+      <h2>Login</h2>
+
+    <form  onSubmit={handleLogin}>
       <input type="text" name='username' placeholder='Username' value={username} onChange={({ target }) => setUsername(target.value)}/>
       <input type="password" name='password' placeholder='Password' value={password} onChange={({ target }) => setPassword(target.value)}/>
       <button type='submit'>Login</button>
     </form>
+    </div>
   );
 };
