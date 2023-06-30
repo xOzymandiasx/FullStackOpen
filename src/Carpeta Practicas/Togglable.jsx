@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-const Togglable = (props) => {
+const Togglable = forwardRef((props, refs) => { //La función que crea el componente está envuelta dentro de una llamada de función forwardRef. De esta forma el componente puede acceder a la referencia que le está asignada;
   const [logDisplay, setLogDisplay] = useState(false);
 
   const hideWhenVisible = { display: logDisplay ? 'none' : '' }
   const showWhenVisible = { display: logDisplay ? '' : 'none' }
   
   const toggleVisibility = () => setLogDisplay(!logDisplay);
+
+  useImperativeHandle(refs, () => { //El componente usa el hook useImperativeHandle para que su función toggleVisibility esté disponible fuera del componente.se usa para definir funciones en un componente que se pueden invocar desde fuera del componente;
+      return {toggleVisibility}
+    })
 
   return (
     <div>
@@ -18,7 +22,7 @@ const Togglable = (props) => {
         <button onClick={toggleVisibility}>cancel</button>
       </div>
     </div>
-  )
-}
+  );
+});
 
-export default Togglable
+export default Togglable;

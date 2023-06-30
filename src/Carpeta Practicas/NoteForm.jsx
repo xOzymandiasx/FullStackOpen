@@ -6,7 +6,7 @@ const noteInitialState = {content: ""};
 const NoteForm = ({ props }) => {
   const [newNote, setNewNote] = useState(noteInitialState);
 
-  const {notes, setNotes} = props
+  const {notes, setNotes, noteFormRef} = props
 
   const handleChange = (e) => {
     setNewNote({...newNote, [e.target.name]: e.target.value});
@@ -14,6 +14,7 @@ const NoteForm = ({ props }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    noteFormRef.current.toggleVisibility()
     const createdNote = await noteService.create(newNote);
     console.log(createdNote);
     setNotes(notes.concat(createdNote));

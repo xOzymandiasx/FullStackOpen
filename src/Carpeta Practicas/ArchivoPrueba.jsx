@@ -16,7 +16,6 @@ const ArchivoPrueba = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const noteFormRef  = useRef();
-
   const baseUrl = "http://localhost:3001/api/notes";
 
   useEffect(() => {
@@ -57,7 +56,7 @@ const ArchivoPrueba = () => {
     {user !== null && 
       <div>
         <p>{user.name} logged-in</p>
-        <Togglable buttonLabel="new note"><NoteForm props={{notes, setNotes}} ref={noteFormRef}/></Togglable> 
+        <Togglable buttonLabel="new note" ref={noteFormRef}><NoteForm props={{notes, setNotes, noteFormRef}} /></Togglable> 
       </div>}
     <ul>
       {notes.map(item => <Notes key={item.id} note={item} toggleImportance={toggleImportance} />)}
