@@ -7,7 +7,7 @@ import Notification from "./components/Notification";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState({state: null, notColor: null, message: null});
+  const [notification, setNotification] = useState({state: null, notColor: null, message: null, author: null});
   console.log(notification);
   useEffect(() => {
     const loggedBlogUser = localStorage.getItem("loggedBlogUser");
@@ -35,9 +35,15 @@ function App() {
       {user !== null && 
       <div>
         <h2>List of blogs</h2>
-        <p>Welcome {user.username} <button onClick={userLogOut}>Log out</button></p> 
+
+        {notification.state === true && <Notification notification={notification}/>}
+
+        <p>Welcome {user.username} <button onClick={userLogOut}>Log out</button></p>
+
         {user.blogs.map(item => <Blogs key={item.id} blog={item}/>)}
+
         <h3>Create new blog</h3>
+        
         <BlogForm setUser={setUser} setNotification={setNotification}/>
       </div>
       }

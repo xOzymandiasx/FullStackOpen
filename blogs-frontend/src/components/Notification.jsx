@@ -1,13 +1,12 @@
 const Notification = ({notification}) => {
 
-  const {notColor, message} = notification;
+  const {notColor, message, author} = notification;
 
   return (
    <div>
-    <p>Todos putos</p>
-    {/* {message !== null
-     ? <p style={{color: notColor}}>{message}</p> 
-     : <p style={{color: notColor}}>Wrong credentials</p>}  */}
+    {message !== null
+     ? <p style={{color: notColor}}>A new blog {message} by {author}</p> 
+     : <p style={{color: notColor}}>Wrong credentials</p>} 
    </div>
   );
 };

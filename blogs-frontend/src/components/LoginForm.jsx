@@ -24,9 +24,9 @@ const LoginForm = ({ setUser, setNotification }) => {
       setUserLogin(userLoginInitialState);
     }catch{
       console.warn("Wrong credential");
-      setNotification({state: true, notColor: "red", message: null});
+      setNotification({state: true, notColor: "red", message: null, author: null});
       setTimeout(() => {
-        setNotification({state: null, color: null, message: null});
+        setNotification({state: null, color: null, message: null, author: null});
       }, 3000);
     }
   };

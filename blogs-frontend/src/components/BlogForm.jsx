@@ -15,16 +15,16 @@ const BlogForm = ({ setUser, setNotification }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      // const {title, author, id} = await blogService.create(blog);
-      // const blogUser = JSON.parse(localStorage.getItem("loggedBlogUser"));
-      // const newUser = {...blogUser, blogs: [...blogUser.blogs, {title, author, id}]}
-      // localStorage.setItem("loggedBlogUser", JSON.stringify(newUser));
-      // setUser(newUser);
-      setBlog(initialBlog);
-      setNotification({state: true, notColor: "green", message: "title"});
+      const {title, author, id} = await blogService.create(blog);
+      const blogUser = JSON.parse(localStorage.getItem("loggedBlogUser"));
+      const newUser = {...blogUser, blogs: [...blogUser.blogs, {title, author, id}]}
+      localStorage.setItem("loggedBlogUser", JSON.stringify(newUser));
+      setUser(newUser);
+      setNotification({state: true, notColor: "green", message: title, author: author});
       setTimeout(() => {
-        setNotification({state: null, notColor: null, message: null});
-      }, 7000);  
+        setNotification({state: null, notColor: null, message: null, author: null});
+      }, 4000);  
+      setBlog(initialBlog);
     }catch(error) {
       console.log(error);
     }
