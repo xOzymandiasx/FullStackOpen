@@ -4,10 +4,12 @@ import blogService from "./services/blogService";
 import Blogs from "./components/Blogs";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 function App() {
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState({state: null, notColor: null, message: null, author: null});
+
   console.log(notification);
   useEffect(() => {
     const loggedBlogUser = localStorage.getItem("loggedBlogUser");
@@ -40,11 +42,13 @@ function App() {
 
         <p>Welcome {user.username} <button onClick={userLogOut}>Log out</button></p>
 
-        {user.blogs.map(item => <Blogs key={item.id} blog={item}/>)}
+        {user.blogs.map(item => <Blogs key={item.id} blog={item} />)}
 
         <h3>Create new blog</h3>
+        <Togglable button="New blog">
+          <BlogForm setUser={setUser} setNotification={setNotification}/>
+        </Togglable>
         
-        <BlogForm setUser={setUser} setNotification={setNotification}/>
       </div>
       }
     </>

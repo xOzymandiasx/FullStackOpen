@@ -1,10 +1,23 @@
+import { useState } from "react";
 
 const Blogs = ({ blog }) => {
-  const {title, author, id} = blog
+  const [hideDisplay, setHideDisplay] = useState(false);
+
+  const {title, author, id, url, likes} = blog;
+
+  const changeDisplay = () => setHideDisplay(!hideDisplay);
 
   return (
-    <p>{title} {author}</p>
-  )
-}
+    <>
+    <h3>{title} <button onClick={changeDisplay}>View</button></h3> 
+    <ul style={{listStyle: "none", padding: 0, display: hideDisplay ? "" : "none"}}>
+      <li>{url}</li>
+      <li>{likes}</li>
+      <li>{author}</li>
+    </ul>
+    </>
+    
+  );
+};
 
 export default Blogs;
