@@ -7,46 +7,45 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [actualUser, setActualUser] = useState(null);
   const [notification, setNotification] = useState({state: null, notColor: null, message: null, author: null});
 
-  console.log(notification);
   useEffect(() => {
     const loggedBlogUser = localStorage.getItem("loggedBlogUser");
     if (loggedBlogUser) {
       const user = JSON.parse(loggedBlogUser);
-      setUser(user);
+      setActualUser(user);
       blogService.setToken(user.token);
     }; 
   }, []);
   
   const userLogOut = () => {
     localStorage.clear();
-    setUser(null);
+    setActualUser(null);
   };
 
   return (
     <>
-      {user === null && 
+      {actualUser === null && 
       <>
       <h1>Log in to de app</h1>
       {notification.state === true && <Notification notification={notification}/>}
-      <LoginForm setUser={setUser} setNotification={setNotification}/>
+      <LoginForm setUser={setActualUser} setNotification={setNotification}/>
       </>   
       }
-      {user !== null && 
+      {actualUser !== null && 
       <div>
         <h2>List of blogs</h2>
 
         {notification.state === true && <Notification notification={notification}/>}
 
-        <p>Welcome {user.username} <button onClick={userLogOut}>Log out</button></p>
+        <p>Welcome {actualUser.username} <button onClick={userLogOut}>Log out</button></p>
 
-        {user.blogs.map(item => <Blogs key={item.id} blog={item} />)}
+        {actualUser.blogs.map(item => <Blogs key={item.id} blog={item} props={{actualUser, setActualUser}}/>)}
 
         <h3>Create new blog</h3>
         <Togglable button="New blog">
-          <BlogForm setUser={setUser} setNotification={setNotification}/>
+          <BlogForm setUser={setActualUser} setNotification={setNotification}/>
         </Togglable>
         
       </div>
