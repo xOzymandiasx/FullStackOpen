@@ -68,7 +68,8 @@ blogRouters.put("/:id", async(request, response, next) => {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+    user: body.user
     };
 
   try{
