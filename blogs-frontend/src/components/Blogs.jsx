@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import blogService from "../services/blogService";
 
 const Blogs = ({ blog, props }) => {
   const [hideDisplay, setHideDisplay] = useState(false);
@@ -17,7 +18,14 @@ const Blogs = ({ blog, props }) => {
     const actualizedBlog = {...blogUser, blogs: blogUser.blogs.map(item => item.id === data.id ? data : item)};
     localStorage.setItem("loggedBlogUser", JSON.stringify(actualizedBlog));
     setActualUser(actualizedBlog);
-    console.log(actualizedBlog);
+  };
+
+  const handleDelete = async id => {
+    await blogService.delBlog(id);
+    const blogUser = JSON.parse(localStorage.getItem("loggedBlogUser"));
+    const actualizedBlog = {...blogUser, blogs: blogUser.blogs.filter(item => item.id !== id)};
+    localStorage.setItem("loggedBlogUser", JSON.stringify(actualizedBlog));
+    setActualUser(actualizedBlog);
   };
 
   return (
@@ -27,9 +35,9 @@ const Blogs = ({ blog, props }) => {
       <li>{url}</li>
       <li>{likes} <button onClick={()=> handleLike(id)}>Like</button></li>
       <li>{author}</li>
+      <button onClick={()=> handleDelete(id)}>Delete</button>
     </ul>
-    </>
-    
+    </> 
   );
 };
 

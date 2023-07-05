@@ -14,4 +14,13 @@ const create = async blog => {
   return data;
 };
 
-export default { setToken, create};
+const delBlog = async id => {
+  const config = {
+    headers: {Authorization: token}
+  };
+
+  const {data} = axios.delete(`http://localhost:3001/api/blogs/${id}`, config);
+  return {data};
+};
+
+export default { setToken, create, delBlog};

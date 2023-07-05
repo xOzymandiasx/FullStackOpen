@@ -14,6 +14,7 @@ function App() {
     const loggedBlogUser = localStorage.getItem("loggedBlogUser");
     if (loggedBlogUser) {
       const user = JSON.parse(loggedBlogUser);
+      user.blogs.sort((a, b) => b.likes - a.likes);
       setActualUser(user);
       blogService.setToken(user.token);
     }; 
