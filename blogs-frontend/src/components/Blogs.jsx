@@ -21,11 +21,18 @@ const Blogs = ({ blog, props }) => {
   };
 
   const handleDelete = async id => {
+    const blogToDelete = actualUser.blogs.find(item => item.id === id);
+    const confirmDel = window.confirm(`You want to delete the blog ${blogToDelete.title} by ${blogToDelete.author}?`);
+    if (confirmDel) {
     await blogService.delBlog(id);
     const blogUser = JSON.parse(localStorage.getItem("loggedBlogUser"));
     const actualizedBlog = {...blogUser, blogs: blogUser.blogs.filter(item => item.id !== id)};
     localStorage.setItem("loggedBlogUser", JSON.stringify(actualizedBlog));
     setActualUser(actualizedBlog);
+    } else {
+      return;
+    };
+
   };
 
   return (
