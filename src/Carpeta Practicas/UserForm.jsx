@@ -32,9 +32,9 @@ export const UserForm = ({ props }) => {
       <h2>Login</h2>
 
     <form  onSubmit={handleLogin}>
-      <input type="text" name='username' placeholder='Username' value={username} onChange={({ target }) => setUsername(target.value)}/>
-      <input type="password" name='password' placeholder='Password' value={password} onChange={({ target }) => setPassword(target.value)}/>
-      <button type='submit'>Login</button>
+      <input id='username' type="text" name='username' placeholder='Username' value={username} onChange={({ target }) => setUsername(target.value)}/>
+      <input id='password' type="password" name='password' placeholder='Password' value={password} onChange={({ target }) => setPassword(target.value)}/>
+      <button id='login-button' type='submit'>Login</button>
     </form>
     </div>
   );
