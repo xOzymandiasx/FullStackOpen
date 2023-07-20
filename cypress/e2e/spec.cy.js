@@ -1,4 +1,5 @@
 beforeEach(() => {
+  cy.request("POST", "")
   cy.visit("http://localhost:5173");
 });
 
@@ -14,11 +15,28 @@ describe('Note app', function() {
     cy.contains("Login").click();
   });
 
+  //Cypress se loguea a la aplicacion a traves de estos comandos;
   it("User can login", function() {
     cy.contains("Login").click();
     cy.get("#username").type("Riky Fort");
     cy.get("#password").type("12345");
     cy.get("#login-button").click();
     cy.contains("Ricardo");
+  });
+
+  describe("When logged in", function() {
+    beforeEach(function() {
+      cy.contains("Login").click();
+      cy.get("#username").type("Riky Fort");
+      cy.get("#password").type("12345");
+      cy.get("#login-button").click();
+    });
+
+    it("A new note can be created", function() {
+      cy.contains("new note").click();
+      cy.get("input").type("a note created by cypress");
+      // cy.contains("save").clic();  //Lo desactivo para que no me cree notas permanentemente
+      // cy.contains("a note created by cypress");
+    });
   });
 });
