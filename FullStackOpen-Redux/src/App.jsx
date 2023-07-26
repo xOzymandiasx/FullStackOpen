@@ -1,11 +1,10 @@
-import {store} from "./reducers/noteReducer"
+import Notes from "./components/Notes";
+import UniCafe from "./unicafe/components/UniCafe";
 
 const App = () => {
   return (
     <div>
-      <ul>
-        {store.getState().map(item => <li key={item.id}>{item.content} <strong>{item.important ? "important" : ""}</strong> </li>)}
-      </ul>
+      <Notes />
     </div>
   )
 }
