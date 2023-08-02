@@ -1,4 +1,5 @@
 // const votesInitialState = [0, 0, 0, 0, 0, 0];
+import AnecdoteList from "./AnecdoteList";
 
 const Anecdotes = () => {
   // const [random, setRandom] = useState(0);
@@ -41,12 +42,12 @@ const Anecdotes = () => {
   return (
     <div>
       <h1>Anecdotes</h1>
+      <AnecdoteList />
     </div>
   );
 };
 
 export default Anecdotes;
-
     {/* <h2>Anecdotes</h2>
       <p>{anecdotes[random]}</p>
       <p>votes {votes[random]}</p>

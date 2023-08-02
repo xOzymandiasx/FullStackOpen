@@ -34,7 +34,15 @@ const anecdoteReducer = (state = initialAnecdores, action) => {
       return [...state, action.data];
 
     case "VOTE":
-      
+     console.log(action.data.id);
+     const anecdoteToVote = state[action.data.id];
+     const votedAnecdote = {...anecdoteToVote, votes: anecdoteToVote.votes + 1};
+     const newState = [...state];
+     console.log(newState)
+     newState[action.data.id] = votedAnecdote
+     return newState; 
+     
+    //  return state.map(item => item.id === action.data.id ? votedAnecdote : item);
     default:
       return state;
   }
@@ -47,6 +55,13 @@ export const createAnecdote = anecdote => {
       anecdote,
       votes: 0
     }
+  };
+};
+
+export const voteUp = id => {
+  return {
+    type: "VOTE",
+    data: {id}
   };
 };
 
