@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { voteUp } from "../reducers/anecdotesReducer";
 
-const EachAnecdote = ({data, index}) => {
+const EachAnecdote = ({ data }) => {
   const dispatch = useDispatch();
   const {anecdote, votes} = data;
 
@@ -12,7 +12,7 @@ const EachAnecdote = ({data, index}) => {
   return (
     <>
     <li>{anecdote}</li>
-    <li>Has {votes} <button onClick={() => handleVoteClick(index)}>Vote</button></li>
+    <li>Has {votes} <button onClick={() => handleVoteClick(data.id)}>Vote</button></li>
     </>
   );
 };
