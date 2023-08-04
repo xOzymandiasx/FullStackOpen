@@ -8,7 +8,7 @@ const AnecdoteList = () => {
     <ul>
       {anecdotes.map((item, index) => <EachAnecdote key={index} data={item} />)}
     </ul>
-  )
-}
+  );
+};
 
-export default AnecdoteList
+export default AnecdoteList;
