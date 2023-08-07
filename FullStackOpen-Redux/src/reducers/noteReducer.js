@@ -1,26 +1,10 @@
 // import { createStore } from 'redux';
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [
     { content: 'reducer defines how redux store works', important: true, id: 1},
     { content: 'state of store can contain any data', important: false, id: 2}
   ];
-
-export const noteReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "NEW_NOTE":
-      return [...state, action.data];
-    
-      case "TOGGLE_IMPORTANCE":
-        const id = action.data.id;
-        const noteToChange = state.find(item => item.id === id);
-        const changedNote = {...noteToChange, important: !noteToChange.important};
-        return state.map(item => item.id !== id ? item : changedNote);
-    default:
-    return state;
-  };
-};
 
 const generateId = () => Number((Math.random() * 1000000).toFixed(0));
 
@@ -37,35 +21,59 @@ const noteSlice = createSlice({
       })
     },
     toggleImportanceOf(state, action) {
-      
+      const id = action.payload;
+      const noteToChange = state.find(item => item.id === id);
+      const changedNote = {
+        ...noteToChange, 
+        important: !noteToChange.important
+      };
+      console.log(JSON.parse(JSON.stringify(state))); //Debido a que redux-toolkit utiliza la libreria immer para guardar el estado, para que sea legible preimero lo pasamos a formato Json y luego a objeto Js;
+      return state.map(item => item.id === id ?changedNote : item);
     }
-  }
+  },
+});
 
-})
+export const { createNote, toggleImportanceOf } = noteSlice.actions;
+export default noteSlice.reducer;
 
+////Manera antigua para crear reducers y acciones
+// export const noteReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case "NEW_NOTE":
+//       return [...state, action.data];
+    
+//       case "TOGGLE_IMPORTANCE":
+//         const id = action.data.id;
+//         const noteToChange = state.find(item => item.id === id);
+//         const changedNote = {...noteToChange, important: !noteToChange.important};
+//         return state.map(item => item.id !== id ? item : changedNote);
+//     default:
+//     return state;
+//   };
+// };
 //Funciones creadoras de acciones;
-export const createNote = (content) => {
-  return {
-    type: "NEW_NOTE",
-    data: {
-      content,
-      important: false,
-      id: generateId()
-    }
-  };
-};
+// export const createNote = (content) => {
+//   return {
+//     type: "NEW_NOTE",
+//     data: {
+//       content,
+//       important: false,
+//       id: generateId()
+//     }
+//   };
+// };
 
-export const toggleImportanceOf = (id) => {
-  return {
-    type: "TOGGLE_IMPORTANCE",
-    data: {id}
-  };
-};
+// export const toggleImportanceOf = (id) => {
+//   return {
+//     type: "TOGGLE_IMPORTANCE",
+//     data: {id}
+//   };
+// };
 
-export default noteReducer;
+// export default noteReducer;
+
 
 // export const store = createStore(noteReducer);
-
 // store.dispatch({
 //   type: "NEW_NOTE",
 //   data: {
