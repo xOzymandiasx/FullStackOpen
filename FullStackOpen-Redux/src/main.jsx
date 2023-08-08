@@ -8,9 +8,10 @@ import "./index.css";
 import noteReducer from "./reducers/noteReducer.js";
 import filterReducer from "./reducers/filterReducer.js";
 import anecdoteReducer from "./Anecdotes/reducers/anecdotesReducer.js";
+import notificationReducer from "./Anecdotes/reducers/notificationReducer.js"
 // const store = createStore(anecdoteReducer);
 
-//* Store de la aplicacion principal
+// * Store de la aplicacion principal
 // const store = configureStore({
 //   reducer: {
 //     notes: noteReducer,
@@ -20,7 +21,8 @@ import anecdoteReducer from "./Anecdotes/reducers/anecdotesReducer.js";
 
 const store = configureStore({
   reducer: {
-    anecdotes: anecdoteReducer
+    anecdotes: anecdoteReducer,
+    notification: notificationReducer
   }
 });
 
