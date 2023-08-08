@@ -2,7 +2,8 @@ import { useSelector } from "react-redux";
 import EachAnecdote from "./EachAnecdote";
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state.sort((a, b) => b.votes - a.votes));
+  //*Utilizo el spread operator porque redux-toolkit "freezea" mi estado(que seria anecdotes);
+  const anecdotes = useSelector(({anecdotes}) => [...anecdotes].sort((a, b) => b.votes - a.votes));
 
   return (
     <ul>

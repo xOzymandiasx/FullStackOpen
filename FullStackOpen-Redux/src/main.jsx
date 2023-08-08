@@ -10,11 +10,17 @@ import filterReducer from "./reducers/filterReducer.js";
 import anecdoteReducer from "./Anecdotes/reducers/anecdotesReducer.js";
 // const store = createStore(anecdoteReducer);
 
+//* Store de la aplicacion principal
+// const store = configureStore({
+//   reducer: {
+//     notes: noteReducer,
+//     filter: filterReducer
+//   }
+// });
 
 const store = configureStore({
   reducer: {
-    notes: noteReducer,
-    filter: filterReducer
+    anecdotes: anecdoteReducer
   }
 });
 

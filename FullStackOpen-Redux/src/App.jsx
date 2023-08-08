@@ -5,8 +5,8 @@ import UniCafe from "./unicafe/components/UniCafe";
 const App = () => {
   return (
     <div>
-      <Notes />
-      {/* <Anecdotes /> */}
+      {/* <Notes /> */}
+      <Anecdotes />
     </div>
   )
 }
