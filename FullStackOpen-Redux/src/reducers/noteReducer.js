@@ -1,20 +1,18 @@
 // import { createStore } from 'redux';
 import { createSlice } from "@reduxjs/toolkit";
+import noteServices from "../services/notes";
 
 // const initialState = [
 //     { content: 'reducer defines how redux store works', important: true, id: 1},
 //     { content: 'state of store can contain any data', important: false, id: 2}
 //   ];
 
-const generateId = () => Number((Math.random() * 1000000).toFixed(0));
+// const generateId = () => Number((Math.random() * 1000000).toFixed(0));
 
 const noteSlice = createSlice({
   name: "notes",
   initialState: [],
   reducers: {
-    createNote(state, action) {
-      state.push(action.payload);
-    },
     toggleImportanceOf(state, action) {
       const updatedNote = action.payload;
       console.log(JSON.parse(JSON.stringify(state))); //Debido a que redux-toolkit utiliza la libreria immer para guardar el estado, para que sea legible preimero lo pasamos a formato Json y luego a objeto Js;
@@ -29,7 +27,22 @@ const noteSlice = createSlice({
   },
 });
 
-export const { createNote, toggleImportanceOf, appendNote, setNotes } = noteSlice.actions;
+export const { toggleImportanceOf, appendNote, setNotes } = noteSlice.actions;
+
+export const initializeNotes = () => {
+  return async dispatch => {
+    const notes = await noteServices.getAll();
+    dispatch(setNotes(notes));
+  };
+};
+
+export const createNote = content => {
+  return async dispatch => {
+    const newNote = await noteServices.addNote(content);
+    dispatch(appendNote(newNote));
+  };
+};
+
 export default noteSlice.reducer;
 
 //*Manera antigua para crear reducers y acciones
