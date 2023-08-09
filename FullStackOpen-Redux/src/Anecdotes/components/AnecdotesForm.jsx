@@ -1,16 +1,23 @@
 import { useDispatch } from "react-redux";
 import { createAnecdote } from "../reducers/anecdotesReducer";
 import { showNotification } from "../reducers/notificationReducer";
+import anecdotesServices from "../services/anecdotes";
+
 
 const AnecdotesForm = () => {
   const dispatch = useDispatch();
 
-  const handleAnecdoteForm = e => {
+  const handleAnecdoteForm = async e => {
     e.preventDefault();
     const anecdote = e.target.anecdote.value;
     e.target.anecdote.value = "";
-    dispatch(createAnecdote(anecdote));
-    dispatch(showNotification(anecdote)); //!Modificar para poner setTimeOut
+    const newAnecdote = await anecdotesServices.addAnecdote(anecdote);
+    dispatch(createAnecdote(newAnecdote));
+    dispatch(showNotification({message: `Anecdote ${anecdote} add to the list.`, showDisplay: true}));
+    //Funcion para activar/desactivar notrificacion;
+    setTimeout(() => {
+      dispatch(showNotification({message: "", showDisplay: false}));
+    }, 4000);
   };
 
   return (

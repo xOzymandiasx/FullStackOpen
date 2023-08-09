@@ -10,8 +10,8 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     showNotification(state, action) {
-      state.showDisplay = true
-      state.message = action.payload;
+      state.showDisplay = action.payload.showDisplay
+      state.message = action.payload.message;
     }
   }
 });

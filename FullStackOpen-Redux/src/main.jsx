@@ -12,19 +12,19 @@ import notificationReducer from "./Anecdotes/reducers/notificationReducer.js"
 // const store = createStore(anecdoteReducer);
 
 // * Store de la aplicacion principal
-// const store = configureStore({
-//   reducer: {
-//     notes: noteReducer,
-//     filter: filterReducer
-//   }
-// });
-
 const store = configureStore({
   reducer: {
-    anecdotes: anecdoteReducer,
-    notification: notificationReducer
+    notes: noteReducer,
+    filter: filterReducer
   }
 });
+
+// const store = configureStore({
+//   reducer: {
+//     anecdotes: anecdoteReducer,
+//     notification: notificationReducer
+//   }
+// });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
