@@ -11,8 +11,7 @@ const AnecdotesForm = () => {
     e.preventDefault();
     const anecdote = e.target.anecdote.value;
     e.target.anecdote.value = "";
-    const newAnecdote = await anecdotesServices.addAnecdote(anecdote);
-    dispatch(createAnecdote(newAnecdote));
+    dispatch(createAnecdote(anecdote));
     dispatch(showNotification({message: `Anecdote ${anecdote} add to the list.`, showDisplay: true}));
     //Funcion para activar/desactivar notrificacion;
     setTimeout(() => {
