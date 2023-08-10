@@ -1,17 +1,14 @@
 import { useDispatch } from "react-redux";
-import { voteUp } from "../reducers/anecdotesReducer";
-import { showNotification } from "../reducers/notificationReducer";
+import { vote } from "../reducers/anecdotesReducer";
+import { setNotification, showNotification } from "../reducers/notificationReducer";
 
 const EachAnecdote = ({ data }) => {
   const dispatch = useDispatch();
   const {content, votes} = data;
 
   const handleVoteClick = id => {
-    dispatch(voteUp(id));
-    dispatch(showNotification({message: `You votted ${anecdote}`, showDisplay: true}));
-    setTimeout(() => {
-      dispatch(showNotification({message: "", showDisplay: false}));
-    }, 4000);
+    dispatch(vote(id));
+    dispatch(setNotification(`You votted ${content}`, 4000))
   };
 
   return (

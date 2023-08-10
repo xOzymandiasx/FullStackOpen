@@ -9,7 +9,7 @@ const Anecdotes = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-   dispatch(initialAnecdotes())
+   dispatch(initialAnecdotes());
   }, [])
 
   return (
