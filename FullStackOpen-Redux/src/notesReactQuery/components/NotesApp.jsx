@@ -3,9 +3,15 @@ import { createNote, getNotes, updateNote } from "../services/requests";
 
 const NotesApp = () => {
   const queryClient = useQueryClient();
+
   const newNoteMutation = useMutation(createNote, {
-    onSuccess: () => queryClient.invalidateQueries("notes"),
+    //*genera que se dispare la funcion getNotes de useQuery para actualizar el estado;
+    onSuccess: (newNote) => {
+      const notes = queryClient.getQueryData("notes");
+      queryClient.setQueryData("notes", notes.concat(newNote));
+    },
   });
+  
   const updateNoteMutation = useMutation(updateNote, {
     onSuccess: () => queryClient.invalidateQueries("notes"),
   });
@@ -21,7 +27,10 @@ const NotesApp = () => {
     updateNoteMutation.mutate({...note, important: !note.important});
   };
 
-  const result = useQuery("notes", getNotes);
+  const result = useQuery("notes", getNotes, {
+    //*la funcionalidad predeterminada de las consultas de React Query es que las consultas se actualizan cuando window focus cambia, para que no siga pasando lo desactivamos;
+    refetchOnWindowFocus: false,
+  });
   console.log(result);
 
   if (result.isLoading) return <div>Loadin data...</div>;

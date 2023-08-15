@@ -19,6 +19,11 @@
       "content": "Aguanten los reducers",
       "important": false,
       "id": 4
+    },
+    {
+      "content": "Aguanten los reducers",
+      "important": true,
+      "id": 5
     }
   ]
 }
