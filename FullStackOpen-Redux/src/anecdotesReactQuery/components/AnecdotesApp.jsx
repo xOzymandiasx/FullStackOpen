@@ -6,7 +6,12 @@ import { getAnecdotes } from "../services/requests";
 
 const AnecdotesApp = () => {
 
-  const result = useQuery("anecdotes", getAnecdotes);
+  const result = useQuery("anecdotes", getAnecdotes, {
+    retry: 1,
+  });
+
+  if (result.isLoading) return <Notification props="Is loading..."/>
+  if (result.isError) return <Notification props= "Server error"/>
 
   const anecdotes = result.data;
 
@@ -14,8 +19,7 @@ const AnecdotesApp = () => {
     <div>
       <h3>Anecdote app</h3>
 
-      <Notification />
-      <AnecdoteForm />
+      {/* <AnecdoteForm /> */}
 
       {anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
