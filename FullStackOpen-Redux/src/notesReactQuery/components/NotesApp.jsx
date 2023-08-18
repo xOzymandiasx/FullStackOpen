@@ -5,7 +5,7 @@ const NotesApp = () => {
   const queryClient = useQueryClient();
 
   const newNoteMutation = useMutation(createNote, {
-    //*genera que se dispare la funcion getNotes de useQuery para actualizar el estado;
+    //*Obtiene el estado global de la aplicación  y lo setea con la respuesta de la función createNote;
     onSuccess: (newNote) => {
       const notes = queryClient.getQueryData("notes");
       queryClient.setQueryData("notes", notes.concat(newNote));
