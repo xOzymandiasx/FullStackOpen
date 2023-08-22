@@ -1,37 +1,19 @@
-import { useReducer } from "react";
-import { CounterContext } from "./context/CounterContext";
-
-const counterReducer = (state, action) => {
-  switch (action.type) {
-    case "INC":
-      return state + 1;
-
-    case "DEC":
-      return state - 1;
-
-    case "ZERO":
-      return 0;
-
-    default:
-      return state;
-  }
-};
+import Button from "./Button";
+import { userCounterValue } from "./context/CounterContext";
 
 const CounterMain = () => {
-  const [counter, counterDispatch] = useReducer(counterReducer, 0);
+  const counter = userCounterValue();
 
   return (
-    <CounterContext.Provider value={[counter, counterDispatch]}>
-      <div>
-        <h1>CounterMain</h1>
+    <div>
+      <h1>CounterMain</h1>
 
-        <h2>{counter}</h2>
+      <h2>{counter}</h2>
 
-        <button onClick={() => counterDispatch({ type: "INC" })}>+</button>
-        <button onClick={() => counterDispatch({ type: "DEC" })}>-</button>
-        <button onClick={() => counterDispatch({ type: "ZERO" })}>0</button>
-      </div>
-    </CounterContext.Provider>
+      <Button label="+" type="INC" />
+      <Button label="-" type="DEC" />
+      <Button label="0" type="ZERO" />
+    </div>
   );
 };
 

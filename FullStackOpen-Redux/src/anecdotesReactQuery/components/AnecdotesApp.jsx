@@ -22,6 +22,7 @@ const AnecdotesApp = () => {
     retry: 1,
   });
 
+  //*Estado de la aplicacion con reactQuery;
   const anecdotes = result.data;
 
   if (result.isLoading) return <Notification props="Is loading..."/>

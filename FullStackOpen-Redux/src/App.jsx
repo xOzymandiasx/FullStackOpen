@@ -13,9 +13,9 @@ const App = () => {
       {/* //*App de notesReactQuery; */}
       {/* <NotesApp /> */}
       {/* //*App AnecdotesReact-query */}
-      {/* <AnecdotesApp /> */}
+      <AnecdotesApp />
       {/* //*App CounterUseReducer */}
-      <CounterMain />
+      {/* <CounterMain /> */}
     </div>
   )
 }

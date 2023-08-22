@@ -4,6 +4,7 @@ import { createAnecdote } from "../services/requests";
 const AnecdoteForm = () => {
   const queryClient = useQueryClient();
 
+  //*Codigo para crear la nota;
   const newAnecdoteMutation = useMutation(createAnecdote, {
     onSuccess: (newAnecdote) => {
       const anecdotes = queryClient.getQueryData("anecdotes");
