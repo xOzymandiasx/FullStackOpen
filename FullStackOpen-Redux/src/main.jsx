@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import App from "./App.jsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { CounterContextProvider } from "./counterUseReducer/context/CounterContext.jsx";
+import { CounterContextProvider } from "./anecdotesReactQuery/context/NotificationContext.jsx";
 //*Store de notes y anecdotes;
 // import store from "./Anecdotes/store/store.js";
 // import store from "./store/store.js";
@@ -23,12 +23,12 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/* //*Contexto de ReactQuery */}
-    <QueryClientProvider client={queryClient}>
-    {/* //*Contexto de contador */}
-    {/* <CounterContextProvider> */}
-      <App />
-    {/* </CounterContextProvider>      */}
+    <QueryClientProvider client={queryClient}> {/* //*Contexto de ReactQuery */} 
+    {/* <CounterContextProvider> */}{/* //*Contexto de contador */}
+      <CounterContextProvider>
+        <App />
+      </CounterContextProvider>    
+      {/* </CounterContextProvider>*/}
     </QueryClientProvider>
   </React.StrictMode>
 );

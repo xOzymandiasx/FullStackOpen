@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "react-query";
 import { createAnecdote } from "../services/requests";
+import { notificationDispatch } from "../context/NotificationContext";
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient();
+  const dispatch = notificationDispatch();
 
   //*Codigo para crear la nota;
   const newAnecdoteMutation = useMutation(createAnecdote, {
@@ -16,7 +18,13 @@ const AnecdoteForm = () => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     event.target.anecdote.value = "";
-    if (content.trim().length <= 5) return alert("The anecdote must have a minimum of 5 characters");
+    if (content.trim().length <= 5){
+      dispatch({type: "MESSAGE", payload: {message: "The anecdote must have a minimum of 5 characters", display: "block"}});
+      setTimeout(() => {
+        dispatch({type: "MESSAGE", payload: {message: "", display: "none"}});
+      }, 4000);
+      return;
+    }
     newAnecdoteMutation.mutate({content, votes: 0});
   };
 
