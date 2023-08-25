@@ -1,7 +1,6 @@
 import { notificationValue } from "../context/NotificationContext";
 
 const Notification = () => {
-
   const {message, display} = notificationValue(); 
   
   const style = {

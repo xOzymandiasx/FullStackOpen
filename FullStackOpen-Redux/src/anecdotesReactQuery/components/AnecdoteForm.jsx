@@ -6,6 +6,14 @@ const AnecdoteForm = () => {
   const queryClient = useQueryClient();
   const dispatch = notificationDispatch();
 
+  //*Notification handler(contextApi, useReducer);
+  const showNotification = (message, display="block") => {
+    dispatch({type: "MESSAGE", payload: {message, display}});
+    setTimeout(() => {
+      dispatch({type: "MESSAGE", payload: {message: "", display: "none"}});
+    }, 4000);
+  };
+
   //*Codigo para crear la nota;
   const newAnecdoteMutation = useMutation(createAnecdote, {
     onSuccess: (newAnecdote) => {
@@ -19,12 +27,9 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value;
     event.target.anecdote.value = "";
     if (content.trim().length <= 5){
-      dispatch({type: "MESSAGE", payload: {message: "The anecdote must have a minimum of 5 characters", display: "block"}});
-      setTimeout(() => {
-        dispatch({type: "MESSAGE", payload: {message: "", display: "none"}});
-      }, 4000);
+      showNotification("The anecdote must have a minimum of 5 characters");
       return;
-    }
+    };
     newAnecdoteMutation.mutate({content, votes: 0});
   };
 

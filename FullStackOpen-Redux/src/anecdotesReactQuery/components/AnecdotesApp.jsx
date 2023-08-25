@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import AnecdoteForm from "./AnecdoteForm";
 import Notification from "./Notification";
 import { getAnecdotes, updateVotes } from "../services/requests";
+import NotificationData from "./NotificationData";
 
 
 const AnecdotesApp = () => {
@@ -25,8 +26,8 @@ const AnecdotesApp = () => {
   //*Estado de la aplicacion con reactQuery;
   const anecdotes = result.data;
 
-  if (result.isLoading) return <Notification props="Is loading..."/>
-  if (result.isError) return <Notification props= "Server error"/>
+  if (result.isLoading) return <NotificationData props="Is loading..."/>;
+  if (result.isError) return <NotificationData props= "Server error"/>;
 
   return (
     <div>
