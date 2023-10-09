@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './Home';
 import Users from './Users';
 import Notes from './Notes';
+import Note from './Note';
 
 const ReactRouterAppMain = () => {
   //*Forma "casera" de aplicar ReactRouter
@@ -21,6 +22,26 @@ const ReactRouterAppMain = () => {
   //   }
   // };
 
+  const [notes, setNotes] = useState([
+    {
+      id: 1,
+      content: 'HTML is easy',
+      important: true,
+      user: 'Matti Luukkainen'
+    },
+    {
+      id: 2,
+      content: 'Browser can execute only JavaScript',
+      important: false,
+      user: 'Matti Luukkainen'
+    },
+    {
+      id: 3,
+      content: 'Most important methods of HTTP-protocol are GET and POST',
+      important: true,
+      user: 'Arto Hellas'
+    }
+  ])
 
   return (
     <Router >
@@ -31,12 +52,12 @@ const ReactRouterAppMain = () => {
       </div>
 
       <Routes>
-        <Route path='/notes' element={<Notes />}/>
+        <Route path='/notes' element={<Notes notes={notes}/>}/>
+        <Route path='/note/:id' element={<Note notes={notes}/>}/>
         <Route path='/users' element={<Users />}/>
         <Route path='/' element={<Home />}/>
       </Routes>
     </Router>
-
   );
 };
 
