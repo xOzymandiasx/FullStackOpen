@@ -1,16 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-const Notes = ({ notes }) => {
-
+const Notes = ({notes}) => {
   return (
     <>
-      <div>Notes</div>
-      <ul>
-        {notes.map(item => <li key={item.id}><Link to={`/note/${item.id}`}>{item.content}</Link></li>)}
-      </ul>
+    <h1>Notes</h1>
+    
+    {notes.map(item => <li key={item.id}><Link to={`/notes/${item.id}`}>{item.content}</Link></li>)}
     </>
-  );
-};
 
-export default Notes;
+  )
+}
+
+export default Notes

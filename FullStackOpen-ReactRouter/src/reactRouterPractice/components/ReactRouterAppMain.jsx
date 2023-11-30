@@ -1,27 +1,12 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from './Home';
-import Users from './Users';
-import Notes from './Notes';
-import Note from './Note';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
+import Notes from "./Notes"
+import Users from "./Users"
+import Home from "./Home"
+import { useState } from "react"
+import Login from "./Login"
+import Note from "./Note"
 
 const ReactRouterAppMain = () => {
-  //*Forma "casera" de aplicar ReactRouter
-  // const [page, setPage] = useState("home");
-  // const toPage = (page) => (e) => {
-  //   e.preventDefault()
-  //   setPage(page);
-  // };
-  // const content = () => {
-  //   if (page === "home") {
-  //     return <Home />;
-  //   } else if (page === "users") {
-  //     return <Users />;
-  //   } else if (page === "notes") {
-  //     return <Notes />;
-  //   }
-  // };
-
   const [notes, setNotes] = useState([
     {
       id: 1,
@@ -41,24 +26,30 @@ const ReactRouterAppMain = () => {
       important: true,
       user: 'Arto Hellas'
     }
-  ])
+  ]);
+
+  const padding = {
+    padding: 5
+  }
 
   return (
-    <Router >
+    <Router>
       <div>
-        <Link to="/">Home</Link>
-        <Link to="/notes">Notes</Link>
-        <Link to="/users">Users</Link>
+        <Link style={padding} to="/">Home</Link>
+        <Link style={padding} to="/notes">Notes</Link>
+        <Link style={padding} to="/users">Users</Link>
       </div>
 
       <Routes>
-        <Route path='/notes' element={<Notes notes={notes}/>}/>
-        <Route path='/note/:id' element={<Note notes={notes}/>}/>
-        <Route path='/users' element={<Users />}/>
-        <Route path='/' element={<Home />}/>
+        <Route path="/notes/:id" element={<Note notes={notes}/>}/>
+        <Route path="/notes" element={<Notes notes={notes}/>}/>
+        <Route path="/users" element={<Users />}/>
+        <Route path="/" element={<Home />}/>
+        <Route path="/login" element={<Login />}/>
       </Routes>
     </Router>
-  );
-};
+    
+  )
+}
 
-export default ReactRouterAppMain;
+export default ReactRouterAppMain
